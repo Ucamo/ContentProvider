@@ -1,6 +1,9 @@
 package carrillo.uriel.contentprovider;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,7 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -142,6 +147,51 @@ public class MainActivity extends AppCompatActivity
             super.onAttach(activity);
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    public void addRecord(View view){
+        //Add a new record
+        ContentValues values = new ContentValues();
+        if((!((EditText)findViewById(R.id.name)).getText().toString().isEmpty())&&
+                (!((EditText)findViewById(R.id.nickname)).getText().toString().isEmpty())){
+            values.put(CustomContentProvider.NAME,((EditText)findViewById(R.id.name)).getText().toString());
+
+            values.put(CustomContentProvider.NICK_NAME,((EditText)findViewById(R.id.nickname)).getText().toString());
+
+            Uri uri = getContentResolver().insert(CustomContentProvider.CONTENT_URI,values);
+            Toast.makeText(getBaseContext(),"Record Inserted", Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(getBaseContext(),"Please enter the records first", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void showAllRecords(View view){
+        //Show all the records sorted by friend's name
+        String URL = "content://carrillo.uriel.provider/nicknames";
+        Uri friends = Uri.parse(URL);
+        Cursor c = getContentResolver().query(friends,
+                null, null, null, "name");
+        String result = "Content Provider Results:";
+
+        if(!c.moveToFirst()){
+            Toast.makeText(this,result+" no content yet!", Toast.LENGTH_LONG).show();
+        }else{
+            do {
+                result = result + "\n"
+                        + c.getString(c.getColumnIndex(CustomContentProvider.NAME))
+                        + " has nickname: "
+                        + c.getString(c.getColumnIndex(CustomContentProvider.NICK_NAME));
+            }   while(c.moveToNext());
+            if(!result.isEmpty()) {
+                Toast.makeText(this, result,
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(this,"No Records present",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -33,7 +33,7 @@ public class CustomContentProvider extends ContentProvider{
     DBHelper dbHelper;
 
     //projection map for a query
-    private static HAshMap<String, String> NicknameMap;
+    private static HashMap<String, String> NicknameMap;
 
     //maps contents URI "paterns" to the integer values that were set above
     static final UriMatcher uriMatcher;
@@ -113,7 +113,7 @@ public class CustomContentProvider extends ContentProvider{
         }
         Cursor cursor = queryBuilder.query(database, projection, selection, selectionArgs, null, null, sortOrder);
         //register to watch a content URI for changes
-        Cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
