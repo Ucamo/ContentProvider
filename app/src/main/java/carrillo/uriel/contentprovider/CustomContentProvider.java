@@ -119,6 +119,16 @@ public class CustomContentProvider extends ContentProvider{
     }
 
     @Override
+    public Uri insert(Uri uri, ContentValues values){
+        long row = database.insert(TABLE_NAME, "",values);
+
+        //If record is added succesfully
+        if(row>0){
+            //aqui me quede
+        }
+    }
+
+    @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         int count=0;
 
@@ -148,18 +158,32 @@ public class CustomContentProvider extends ContentProvider{
         switch (uriMatcher.match(uri)){
             case NICKNAME:
                 //delete all the records of the table
-                count = database.delete(TABLE_NAME,selection,selectionArgs);
+                count = database.delete(TABLE_NAME, selection, selectionArgs);
                 break;
             case NICKNAME_ID:
                 String id= uri.getLastPathSegment();
-                count = database.delete(TABLE_NAME, ID + " = "+
-                id + (!TextUtils.isEmpty(selection) ? " AND ("+
-                selection+ ")" : ""),selectionArgs);
+                count = database.delete(TABLE_NAME, ID + " = " +
+                        id + (!TextUtils.isEmpty(selection) ? " AND (" +
+                        selection + ")" : ""), selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI "+uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return  count;
+    }
+
+    @Override
+    public String getType(Uri uri){
+        switch(uriMatcher.match(uri)){
+            //Get all nicknames records
+            case NICKNAME:
+                return "vnd.android.cursor.dir/vnd.example.nicknames";
+            //Get a particular name
+            case NICKNAME_ID:
+                return "vnd.android.cursor.item/vnd.example.nicknames";
+            default:
+                throw new IllegalArgumentException("Unsupported URI: "+uri);
+        }
     }
 }
