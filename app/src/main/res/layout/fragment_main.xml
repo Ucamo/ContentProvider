@@ -1,12 +1,78 @@
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+   <TextView
+       android:id="@+id/title"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/title"
+       android:textSize="20sp"
+       android:gravity="center_horizontal|center_vertical"
+       android:textStyle="bold"
+       android:layout_alignParentTop="true"
+       android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="60dp"
+        android:hint="@string/name" />
+
+    <EditText
+        android:id="@+id/nickname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name"
+        android:ems="10"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="60dp"
+        android:hint="@string/nickname" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addRecord"
+        android:layout_alignLeft="@+id/nickname"
+        android:layout_below="@+id/nickname"
+        android:layout_marginTop="30dp"
+        android:text="@string/add" />
+
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showAllRecords"
+        android:layout_alignLeft="@+id/btnAdd"
+        android:layout_below="@+id/btnAdd"
+        android:layout_marginTop="20dp"
+        android:text="@string/show" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deleteAllRecords"
+        android:layout_alignLeft="@+id/btnShow"
+        android:layout_below="@+id/btnShow"
+        android:layout_marginTop="20dp"
+        android:text="@string/delete" />
 
 </RelativeLayout>
+</ScrollView>

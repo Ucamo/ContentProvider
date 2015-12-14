@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="carrillo.uriel.contentprovider"
+            android:name=".CustomContentProvider"></provider>
+
     </application>
 
 </manifest>

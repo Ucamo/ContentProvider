@@ -17,14 +17,14 @@ import java.util.HashMap;
 
 public class CustomContentProvider extends ContentProvider{
     //fields for the content provider
-    static final String PROVIDER_NAME = "carrillo.uriel.provider";
+    static final String PROVIDER_NAME = "carrillo.uriel.contentprovider";
     static final String URL ="content://"+PROVIDER_NAME+"/nicknames";
     static final Uri CONTENT_URI = Uri.parse(URL);
 
     //fields for the database
     static final String ID ="id";
     static final String NAME="name";
-    static final String NICK_NAME="nickame";
+    static final String NICK_NAME="nickname";
 
     //Integer values used in content URI
     static final int NICKNAME =1;
@@ -46,7 +46,7 @@ public class CustomContentProvider extends ContentProvider{
     //database declarations
     private SQLiteDatabase database;
     static final String DATABASE_NAME ="NicknamesDirectory";
-    static final String TABLE_NAME="Nicknames";
+    static final String TABLE_NAME="nicknames";
     static final int DATABASE_VERSION=1;
     static final String CREATE_TABLE=
             "CREATE TABLE "+ TABLE_NAME+
@@ -124,8 +124,11 @@ public class CustomContentProvider extends ContentProvider{
 
         //If record is added succesfully
         if(row>0){
-            //aqui me quede
+            Uri newUri = ContentUris.withAppendedId(CONTENT_URI,row);
+            getContext().getContentResolver().notifyChange(newUri,null);
+            return newUri;
         }
+        throw new SQLException("Fail to add a new record into "+uri);
     }
 
     @Override

@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity
 
             values.put(CustomContentProvider.NICK_NAME,((EditText)findViewById(R.id.nickname)).getText().toString());
 
-            Uri uri = getContentResolver().insert(CustomContentProvider.CONTENT_URI,values);
+
+
+            Uri uri = getApplicationContext().getContentResolver().insert(CustomContentProvider.CONTENT_URI,values);
             Toast.makeText(getBaseContext(),"Record Inserted", Toast.LENGTH_LONG).show();
         }
         else{
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity
 
     public void showAllRecords(View view){
         //Show all the records sorted by friend's name
-        String URL = "content://carrillo.uriel.provider/nicknames";
+        String URL = "content://carrillo.uriel.contentprovider/nicknames";
         Uri friends = Uri.parse(URL);
         Cursor c = getContentResolver().query(friends,
                 null, null, null, "name");
@@ -193,6 +195,15 @@ public class MainActivity extends AppCompatActivity
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void deleteAllRecords (View view){
+        //delete all ther ecords and the table of the database provider
+        String URL ="content://carrillo.uriel.contentprovider/nicknames";
+        Uri friends= Uri.parse(URL);
+        int count = getContentResolver().delete(friends, null,null);
+        String countNum=count+" records are deleted";
+        Toast.makeText(getBaseContext(),countNum,Toast.LENGTH_LONG).show();
     }
 
 }
